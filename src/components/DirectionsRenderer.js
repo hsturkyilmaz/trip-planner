@@ -23,6 +23,16 @@ export default MapElementFactory({
     this.$watch(
       () => [this.origin, this.destination, this.travelMode],
       () => {
+        const waypts = [
+          {
+            location: "üsküdar",
+            stopover: true,
+          },
+          {
+            location: "ümraniye",
+            stopover: true,
+          },
+        ];
         let { origin, destination, travelMode } = this;
         if (!origin || !destination || !travelMode) return;
         directionsService.route(
@@ -30,6 +40,7 @@ export default MapElementFactory({
             origin,
             destination,
             travelMode,
+            waypoints: waypts,
           },
           (response, status) => {
             if (status !== "OK") return;

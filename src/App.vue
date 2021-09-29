@@ -16,11 +16,13 @@
       </table>
     </div>
     <br />
-    <GmapMap :zoom="7" :center="center" style="width: 100%; height: 400px">
+    <GmapMap :zoom="10" :center="center" style="width: 100%; height: 400px">
       <DirectionsRenderer
         travelMode="DRIVING"
         :origin="startLocation"
         :destination="endLocation"
+        :waypoints="waypoints"
+        :markers="markers"
       />
     </GmapMap>
   </div>
@@ -36,12 +38,13 @@ export default {
   },
   data() {
     return {
-      center: { lat: 45.508, lng: -73.587 },
+      center: { lat: 41.015, lng: 28.979 },
       currentPlace: null,
       markers: [],
       places: [],
       startLocation: null,
       endLocation: null,
+      waypoints: [],
     };
   },
   methods: {
@@ -56,6 +59,7 @@ export default {
       if (index === 0) this.startLocation = marker;
       if (index === 1) this.endLocation = marker;
       this.center = marker;
+      console.log('eklendi')
     },
   },
 };
