@@ -15,32 +15,25 @@ export default MapElementFactory({
     origin: { type: [Object, Array] },
     destination: { type: [Object, Array] },
     travelMode: { type: String },
+    waypoints: { type: [Object, Array] },
   },
 
   afterCreate(directionsRenderer) {
     let directionsService = new window.google.maps.DirectionsService();
 
     this.$watch(
-      () => [this.origin, this.destination, this.travelMode],
+      () => [this.origin, this.destination, this.travelMode, this.waypoints],
       () => {
-        const waypts = [
-          {
-            location: "üsküdar",
-            stopover: true,
-          },
-          {
-            location: "ümraniye",
-            stopover: true,
-          },
-        ];
-        let { origin, destination, travelMode } = this;
-        if (!origin || !destination || !travelMode) return;
+        
+        let { origin, destination, travelMode, waypoints } = this;
+        if (!origin || !destination || !travelMode || !waypoints) return;
         directionsService.route(
           {
             origin,
             destination,
             travelMode,
-            waypoints: waypts,
+            waypoints,
+            optimizeWaypoints: true,
           },
           (response, status) => {
             if (status !== "OK") return;

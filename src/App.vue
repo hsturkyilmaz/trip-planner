@@ -6,14 +6,20 @@
         <tr>
           <th>Start Location</th>
           <th><GmapAutocomplete @place_changed="setPlace" /></th>
-          <th style="width: 50%;"><button class="btn" @click="addMarker(0)">Add</button></th>
+          <th><button class="btn" @click="addMarker(0)">Add</button></th>
         </tr>
         <tr>
           <th>End Location</th>
           <th><GmapAutocomplete @place_changed="setPlace" /></th>
-          <th style="width: 50%;"><button class="btn" @click="addMarker(1)">Add</button></th>
+          <th><button class="btn" @click="addMarker(1)">Add</button></th>
+        </tr>
+        <tr>
+          <th>Waypoints</th>
+          <th><GmapAutocomplete @place_changed="setPlace" /></th>
+          <th><button class="btn" @click="addMarker(2)">Add</button></th>
         </tr>
       </table>
+      <div class="info"></div>
     </div>
     <br />
     <GmapMap :zoom="10" :center="center" style="width: 100%; height: 400px">
@@ -58,8 +64,12 @@ export default {
       };
       if (index === 0) this.startLocation = marker;
       if (index === 1) this.endLocation = marker;
+      if (index === 2) this.waypoints.push({
+        location: this.currentPlace.name,
+        stopover: true,
+      });
       this.center = marker;
-      console.log('eklendi')
+      document.querySelector(".info").innerHTML = `${this.currentPlace.name} eklendi.` //TODO: bla bla added.
     },
   },
 };
@@ -77,7 +87,7 @@ export default {
 
 .pac-target-input {
   padding: 10px;
-  width: 100%;
+  width: 400px;
 }
 
 .btn {
