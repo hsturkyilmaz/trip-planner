@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import App from './App.vue'
+import '../src/assets/main.css'
 
 import * as VueGoogleMaps from "vue2-google-maps" // Import package
 
