@@ -1,24 +1,21 @@
 <template>
   <div class="map">
-    <h2>Trip Planner</h2>
-    <div>
-      <table>
-        <tr>
-          <th>Start Location</th>
-          <th><GmapAutocomplete @place_changed="setPlace" /></th>
-          <th><button class="btn" @click="addMarker(0)">Add</button></th>
-        </tr>
-        <tr>
-          <th>End Location</th>
-          <th><GmapAutocomplete @place_changed="setPlace" /></th>
-          <th><button class="btn" @click="addMarker(1)">Add</button></th>
-        </tr>
-        <tr>
-          <th>Waypoints</th>
-          <th><GmapAutocomplete @place_changed="setPlace" :value="search"/></th>
-          <th><button class="btn" @click="addMarker(2), clearField()">Add</button></th>
-        </tr>
-      </table>
+    <div class="table">
+      <div>
+        <h3>Start Location</h3>
+        <GmapAutocomplete @place_changed="setPlace" />
+        <button class="btn" @click="addMarker(0)">Add</button>
+      </div>
+      <div>
+        <h3>End Location</h3>
+        <GmapAutocomplete @place_changed="setPlace" />
+        <button class="btn" @click="addMarker(1)">Add</button>
+      </div>
+      <div>
+        <h3>Waypoints</h3>
+        <GmapAutocomplete @place_changed="setPlace" :value="search"/>
+        <button class="btn" @click="addMarker(2), clearField()">Add</button>
+      </div>
       <div class="info"></div>
     </div>
     <br />
@@ -97,9 +94,14 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
+.table {
+  padding: 1rem;
+}
+
 .pac-target-input {
-  padding: 10px;
-  width: 400px;
+  padding: 1rem;
+  width: 25rem;
 }
 
 .btn {
@@ -107,4 +109,5 @@ export default {
   padding: 10px 20px;
   background-color: greenyellow;
 }
+
 </style>
