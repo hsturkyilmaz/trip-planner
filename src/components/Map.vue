@@ -1,24 +1,27 @@
 <template>
   <div class="map">
-    <div class="inputs d-flex flex-column">
-      <h3>Başlangıç Noktası</h3>
-      <div class="d-flex flex-start">
-        <GmapAutocomplete @place_changed="setPlace" />
-        <button class="btn" @click="addMarker(0), showLocation(0)">Ekle</button>
-        <div class="js-origin-info"></div>
+    <div class="map-top d-flex">
+      <div class="inputs d-flex flex-column">
+        <h3>🏁 Başlangıç Noktası</h3>
+        <div class="d-flex flex-start">
+          <GmapAutocomplete @place_changed="setPlace" :value="search" v-on:keyup.enter="addMarker(0), showSelection(0)"/>
+          <button class="btn" @click="addMarker(0), showSelection(0), clearField()">Ekle</button>
+          <div class="js-origin-info"></div>
+        </div>
+        <h3>📍 Varış Noktası</h3>
+        <div class="d-flex flex-start">
+          <GmapAutocomplete @place_changed="setPlace" :value="search" v-on:keyup.enter="addMarker(1), showSelection(1)"/>
+          <button class="btn" @click="addMarker(1), showSelection(1), clearField()">Ekle</button>
+          <div class="js-destination-info"></div>
+        </div>
+        <h3>👥 Yolcu Bilgileri</h3>
+        <div class="d-flex flex-start">
+          <GmapAutocomplete @place_changed="setPlace" :value="search" v-on:keyup.enter="addMarker(2), showSelection(2), clearField()"/>
+          <button class="btn" @click="addMarker(2), showSelection(2), clearField()">Ekle</button>
+          <div class="js-passenger-info"></div>
+        </div>
       </div>
-      <h3>Varış Noktası</h3>
-      <div class="d-flex flex-start">
-        <GmapAutocomplete @place_changed="setPlace" />
-        <button class="btn" @click="addMarker(1), showLocation(1)">Ekle</button>
-        <div class="js-destination-info"></div>
-      </div>
-      <h3>Yolcu Bilgileri</h3>
-      <div class="d-flex flex-start">
-        <GmapAutocomplete @place_changed="setPlace" :value="search" />
-        <button class="btn" @click="addMarker(2), showLocation(2), clearField()">Ekle</button>
-        <div class="js-passenger-info"></div>
-      </div>
+      <Table />
     </div>
     <br />
     <GmapMap class="google-maps" :zoom="10" :center="center">
@@ -41,11 +44,13 @@
 
 <script>
 import DirectionsRenderer from "@/components/DirectionsRenderer";
+import Table from "@/components/Table";
 
 export default {
   name: 'Map',
   components: {
     DirectionsRenderer,
+    Table,
   },
   data() {
     return {
@@ -85,22 +90,21 @@ export default {
         });
       }
       this.center = marker;
-       //TODO: bla bla added.
     },
     clearField() {
       this.search = null
     },
-    showLocation(index) {
+    showSelection(index) {
       if (index === 0) {
-        document.querySelector(".js-origin-info").innerHTML = `Seçilen konum: ${this.currentPlace.name}`;
+        document.querySelector(".js-origin-info").innerHTML = `✔️ ${this.currentPlace.name}`;
         document.querySelector(".js-origin-info").classList.add("info");
       }
       if (index === 1) {
-        document.querySelector(".js-destination-info").innerHTML = `Seçilen konum: ${this.currentPlace.name}`;
+        document.querySelector(".js-destination-info").innerHTML = `✔️ ${this.currentPlace.name}`;
         document.querySelector(".js-destination-info").classList.add("info");
       }
       if (index === 2) {
-        document.querySelector(".js-passenger-info").innerHTML = `${this.currentPlace.name} tabloya eklendi.`;
+        document.querySelector(".js-passenger-info").innerHTML = `➕ ${this.currentPlace.name}`;
         document.querySelector(".js-passenger-info").classList.add("info");
       }
     }
@@ -115,10 +119,14 @@ export default {
   padding: 1rem;
 }
 
+.map-top {
+  gap: 1rem;
+}
+
 .inputs {
-  padding: 1rem;
+  padding: 1.5rem;
   width: 50%;
-  gap: 1.5rem;
+  gap: 1rem;
   background-color: #f1f2f6;
 }
 
@@ -127,7 +135,7 @@ export default {
   width: 60%;
   font-size: 1rem;
   border-radius: 0.25rem;
-  border: 1px solid #7bed9f;
+  border: 0.125rem solid #7bed9f;
 }
 
 .btn {
@@ -135,7 +143,7 @@ export default {
   padding: 1rem 1.5rem;
   background-color: #7bed9f;
   color: #fff;
-  border: 1px solid #7bed9f;
+  border: 0.125rem solid #7bed9f;
   border-radius: 0.25rem;
   font-size: 1rem;
   font-weight: 600;
@@ -160,7 +168,7 @@ export default {
 
 .google-maps {
   width: 100%;
-  height: 400px;
+  height: 25rem;
 }
 
 </style>
