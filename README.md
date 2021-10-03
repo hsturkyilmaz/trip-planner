@@ -1,5 +1,13 @@
 # trip-planner
 
+I know you don't want to keep your passengers waiting. In that case, plan your trip with Google Maps and my web app!
+
+
+## TODOS
+
+01)Trip duration,
+02)Duration and passenger validation.
+
 ## Project setup
 ```
 npm install
