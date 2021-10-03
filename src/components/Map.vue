@@ -15,13 +15,18 @@
           <div class="js-destination-info"></div>
         </div>
         <h3>👥 Yolcu Bilgileri</h3>
+        <input placeholder="Yolcu ismi girin" class="pac-target-input text" v-model="newPassenger"/>
         <div class="d-flex flex-start">
           <GmapAutocomplete @place_changed="setPlace" :value="search" v-on:keyup.enter="addMarker(2), showSelection(2), clearField()"/>
-          <button class="btn" @click="addMarker(2), showSelection(2), clearField()">Ekle</button>
+          <button class="btn" @click="addMarker(2), addPassenger(), showSelection(2), clearField()">Ekle</button>
           <div class="js-passenger-info"></div>
         </div>
       </div>
-      <Table />
+      <div class="table">
+        <ul>
+          <li v-for="(passenger, index)  in passengers" @click="removePassenger(index)" v-bind:key="(passenger, index)">{{passenger}} @ {{currentPlace.name}}</li>
+        </ul>
+      </div>
     </div>
     <br />
     <GmapMap class="google-maps" :zoom="10" :center="center">
@@ -44,13 +49,11 @@
 
 <script>
 import DirectionsRenderer from "@/components/DirectionsRenderer";
-import Table from "@/components/Table";
 
 export default {
   name: 'Map',
   components: {
     DirectionsRenderer,
-    Table,
   },
   data() {
     return {
@@ -62,6 +65,8 @@ export default {
       endLocation: null,
       waypoints: [],
       search: null,
+      passengers: [],
+      newPassenger: ''
     };
   },
   methods: {
@@ -107,12 +112,18 @@ export default {
         document.querySelector(".js-passenger-info").innerHTML = `➕ ${this.currentPlace.name}`;
         document.querySelector(".js-passenger-info").classList.add("info");
       }
+    },
+    addPassenger(){
+      this.passengers.push(this.newPassenger);
+      this.newPassenger = "";
+    },
+    removePassenger(index){
+      this.passengers.splice(index, 1);
     }
   },
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 
 .map {
@@ -137,6 +148,18 @@ export default {
   border-radius: 0.25rem;
   border: 0.125rem solid #7bed9f;
 }
+
+/* .passenger__info {
+ gap: 1rem;
+}
+
+.passenger__input {
+  width: 40%;
+}
+
+.passenger__btn {
+  margin: 0 !important;
+} */
 
 .btn {
   margin-left: 1.5rem;
