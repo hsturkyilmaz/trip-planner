@@ -4,27 +4,28 @@
       <div class="inputs d-flex flex-column">
         <h3>🏁 Başlangıç Noktası</h3>
         <div class="d-flex flex-start">
-          <GmapAutocomplete @place_changed="setPlace" :value="search" v-on:keyup.enter="addMarker(0), showSelection(0)"/>
+          <GmapAutocomplete @place_changed="setPlace" :value="search" />
           <button class="btn" @click="addMarker(0), showSelection(0), clearField()">Ekle</button>
           <div class="js-origin-info"></div>
         </div>
         <h3>📍 Varış Noktası</h3>
         <div class="d-flex flex-start">
-          <GmapAutocomplete @place_changed="setPlace" :value="search" v-on:keyup.enter="addMarker(1), showSelection(1)"/>
+          <GmapAutocomplete @place_changed="setPlace" :value="search" />
           <button class="btn" @click="addMarker(1), showSelection(1), clearField()">Ekle</button>
           <div class="js-destination-info"></div>
         </div>
         <h3>👥 Yolcu Bilgileri</h3>
         <input placeholder="Yolcu ismi girin" class="pac-target-input text" v-model="newPassenger"/>
         <div class="d-flex flex-start">
-          <GmapAutocomplete @place_changed="setPlace" :value="search" v-on:keyup.enter="addMarker(2), showSelection(2), clearField()"/>
+          <GmapAutocomplete @place_changed="setPlace" :value="search" />
           <button class="btn" @click="addMarker(2), addPassenger(), showSelection(2), clearField()">Ekle</button>
           <div class="js-passenger-info"></div>
         </div>
       </div>
       <div class="table">
-        <ul>
-          <li v-for="(passenger, index)  in passengers" @click="removePassenger(index)" v-bind:key="(passenger, index)">{{passenger}} @ {{currentPlace.name}}</li>
+        <h3>🚍 Yolcular</h3>
+        <ul class="passenger-table">
+          <li v-for="(passenger, index)  in passengers" v-bind:key="(passenger, index)">#️⃣ {{index+1}} <br> 👥 {{passenger}} <br> 🚏 {{waypoints[index].location}}</li>
         </ul>
       </div>
     </div>
@@ -116,9 +117,6 @@ export default {
     addPassenger(){
       this.passengers.push(this.newPassenger);
       this.newPassenger = "";
-    },
-    removePassenger(index){
-      this.passengers.splice(index, 1);
     }
   },
 };
@@ -137,6 +135,7 @@ export default {
 .inputs {
   padding: 1.5rem;
   width: 50%;
+  height: 27rem;
   gap: 1rem;
   background-color: #f1f2f6;
 }
@@ -148,18 +147,6 @@ export default {
   border-radius: 0.25rem;
   border: 0.125rem solid #7bed9f;
 }
-
-/* .passenger__info {
- gap: 1rem;
-}
-
-.passenger__input {
-  width: 40%;
-}
-
-.passenger__btn {
-  margin: 0 !important;
-} */
 
 .btn {
   margin-left: 1.5rem;
@@ -192,6 +179,29 @@ export default {
 .google-maps {
   width: 100%;
   height: 25rem;
+}
+
+.table {
+  padding: 1.5rem;
+  width: 50%;
+  height: 27rem;
+  gap: 1rem;
+  background-color: #f1f2f6;
+  overflow-y: scroll;
+}
+
+.passenger-table {
+  list-style: none;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding-top: 1rem;
+}
+
+.passenger-table li {
+  border: 0.125rem dashed black;
+  padding: 0.5rem;
 }
 
 </style>
