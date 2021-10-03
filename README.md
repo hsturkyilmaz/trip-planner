@@ -5,8 +5,7 @@ I know you don't want to keep your passengers waiting. In that case, plan your t
 
 ## TODOS
 
-01)Trip duration,
-02)Duration and passenger validation.
+Trip duration, duration and passenger validation.
 
 ## Project setup
 ```
